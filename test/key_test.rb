@@ -48,6 +48,8 @@ class KeyTest < Test::Unit::TestCase
       bf_key = Blowfish::ECB::Key.new(key[0,i+1].pack("C*"))
       enc = Blowfish::ECB.encrypt(data, bf_key)
       assert_equal(expected[i].pack("C*"), enc, "Failed at case #{i}")
+      dec = Blowfish::ECB.decrypt(enc, bf_key)
+      assert_equal(data, dec, "Failed at case #{i}")
     end
   end
 
