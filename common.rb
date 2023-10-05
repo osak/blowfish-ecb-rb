@@ -1,6 +1,4 @@
 module Blowfish::ECB::Common
-  BF_ROUNDS = 16
-
   class << self
     # call-seq:
     #   encrypt(l, r, Key) -> [int, int]
@@ -29,7 +27,7 @@ module Blowfish::ECB::Common
       l = bf_enc(l, r, key.s, key.p[14])
       r = bf_enc(r, l, key.s, key.p[15])
       l = bf_enc(l, r, key.s, key.p[16])
-      r ^= key.p[BF_ROUNDS + 1]
+      r ^= key.p[17]
 
       [r & 0xffffffff, l & 0xffffffff]
     end
@@ -44,7 +42,7 @@ module Blowfish::ECB::Common
     # Note that unlike the original implementation, this method returns a new tuple representing the result
     # rather than destructively updating the input argument. 
     def decrypt(l, r, key)
-      l ^= key.p[BF_ROUNDS + 1]
+      l ^= key.p[17]
       r = bf_enc(r, l, key.s, key.p[16])
       l = bf_enc(l, r, key.s, key.p[15])
       r = bf_enc(r, l, key.s, key.p[14])

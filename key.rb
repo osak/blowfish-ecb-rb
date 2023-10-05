@@ -532,10 +532,10 @@ module Blowfish::ECB
         0x3ac372e6,
       ]
 
-      d_base = key.bytes.slice(0, (Common::BF_ROUNDS + 2) * 4)
+      d_base = key.bytes.slice(0, (16 + 2) * 4)
       d = d_base.dup
 
-      (Common::BF_ROUNDS + 2).times do |i|
+      (16 + 2).times do |i|
         ri = d.shift
         d = d_base.dup if d.empty?
 
@@ -555,7 +555,7 @@ module Blowfish::ECB
       end
 
       l, r = [0, 0]
-      0.step(Common::BF_ROUNDS+2 - 1, 2) do |i|
+      0.step(16 + 2 - 1, 2) do |i|
         l, r = Common::encrypt(l, r, self)
         @p[i] = l
         @p[i+1] = r
