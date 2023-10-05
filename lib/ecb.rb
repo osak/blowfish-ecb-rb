@@ -6,9 +6,6 @@ module Blowfish::ECB
     # Encrypts the data (as in byte sequence) with given key.
     # Since the data is a byte sequence, its encoding must be ASCII-8BIT. 
     def encrypt(data, key)
-      if data.encoding != Encoding::ASCII_8BIT
-        raise "data.encoding must be ASCII-8BIT, but got: #{data.encoding}"
-      end
       if data.size % 8 != 0
         raise "data size must be multiple of 8, but got: #{data.size}"
       end

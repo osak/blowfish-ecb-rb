@@ -16,11 +16,7 @@ module Blowfish::ECB
     #
     # Encrypts given data.
     def encrypt(data)
-      if data.encoding != Encoding::ASCII_8BIT
-        raise "data.encoding must be ASCII-8BIT, but got: #{data.encoding}"
-      end
-
-      pad_len = data.size - (data.size % 8)
+      pad_len = 8 - (data.size % 8)
       pad_data = ([pad_len] * pad_len).pack("C*")
       Blowfish::ECB.encrypt(data + pad_data, @key)
     end
@@ -28,7 +24,9 @@ module Blowfish::ECB
     # call-seq:
     #   cipher.decrypt(string) -> string
     #
-    # Decrypts given data.
+    # Decrypts given data. The data must be in ASCII-8BIT encoding, since the
+    # encrypted data consists of arbitrary bytes. It is a sign of a bug if the
+    # encrypted data is encoded as if it was a human-readable text.
     def decrypt(data)
       if data.encoding != Encoding::ASCII_8BIT
         raise "data.encoding must be ASCII-8BIT, but got: #{data.encoding}"
