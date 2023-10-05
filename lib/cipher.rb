@@ -16,9 +16,10 @@ module Blowfish::ECB
     #
     # Encrypts given data.
     def encrypt(data)
-      pad_len = 8 - (data.size % 8)
-      pad_data = ([pad_len] * pad_len).pack("C*")
-      Blowfish::ECB.encrypt(data + pad_data, @key)
+      bytes = data.unpack("C*")
+      pad_len = 8 - (bytes.size % 8)
+      bytes.push(*([pad_len] * pad_len))
+      Blowfish::ECB.encrypt(bytes.pack("C*"), @key)
     end
 
     # call-seq:
